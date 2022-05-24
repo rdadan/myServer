@@ -1,5 +1,7 @@
-INC_DIR:= ./include/socket ./include/epoll ./include/tcp ./include/threadpoll ./include/spellcorrect
-SRC_DIR:= ./ ./source/socket ./include/epoll ./include/tcp ./include/threadpoll ./include/spellcorrect
+INC_DIR:= ./include/socket ./include/epoll ./include/tcp \
+		  ./include/threadpoll ./include/spellcorrect \
+SRC_DIR:= ./ ./source/socket ./include/epoll ./include/tcp \
+		  ./include/threadpoll ./include/spellcorrect
 SRCS:=$(wildcard ./*.cpp) \
 		$(wildcard ./source/socket/*.cpp) \
 		$(wildcard ./source/epoll/*.cpp) \

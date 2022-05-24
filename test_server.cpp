@@ -4,6 +4,7 @@
 int main(void)
 {
     SPELLCORRECT::SpellCorrectServer server;
+    
     server.start();
     return 0;
 }

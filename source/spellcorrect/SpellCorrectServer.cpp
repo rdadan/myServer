@@ -1,5 +1,6 @@
 #include "../../include/spellcorrect/SpellCorrectServer.h"
-// #include "../../include/tcp/TcpConnection.h"
+#include "../../include/spellcorrect/QueryTask.h"
+#include "../../include/spellcorrect/Dict.h"
 
 #include <string>
 #include <iostream>
@@ -9,26 +10,31 @@ using std::cout;
 using std::endl;
 namespace SPELLCORRECT
 {
-	class myTask : public THREADPOOL::Task
-	{
-	public:
-		myTask(reactor::spTcpConnPtr pConn) : _pConn(pConn) {}
-		void process() override
-		{
-			int i = 9999999999999999999999;
-			while (i--)
-			{
-			}
-			cout << "process thread: " << pthread_self() << endl;
-			_pConn->sendMsgToLoop("do process done\n");
-		}
-		reactor::spTcpConnPtr _pConn;
-	};
+	// class myTask : public THREADPOOL::Task
+	// {
+	// public:
+	// 	myTask(reactor::spTcpConnPtr pConn) : _pConn(pConn) {}
+	// 	void process() override
+	// 	{
+	// 		int i = 99999999999999999999999;
+	// 		while (i--)
+	// 		{
+	// 		}
+	// 		cout << "process thread: " << pthread_self() << endl;
+	// 		_pConn->sendMsgToLoop("do process done\n");
+	// 	}
+	// 	reactor::spTcpConnPtr _pConn;
+	// };
 
 	SpellCorrectServer::SpellCorrectServer()
 		: _threadPool(2, 2),
 		  _tcpServer()
 	{
+		// 初始化字典
+		string cnpath = "/mnt/d/MyProjects/linuxOS/myspellcorrection/file/dict_cn_test.dat";
+		string enpath = "/mnt/d/MyProjects/linuxOS/myspellcorrection/file/dict_en_test.dat";
+		Dict *pMyDict = Dict::getInstance();
+		pMyDict->initDict(cnpath.c_str(), enpath.c_str());
 	}
 	void SpellCorrectServer::onConnection(spTcpConnPtr pConn)
 	{
@@ -37,14 +43,15 @@ namespace SPELLCORRECT
 	}
 	void SpellCorrectServer::onMessage(spTcpConnPtr pConn)
 	{
-		string msg = pConn->recvMsg();
-		cout << "recv msg: " << msg << endl;
+		string strQuery = pConn->recvMsg();
 		// 去掉 '\n'
-		int pos = msg.find('\n');
+		int pos = strQuery.find('\n');
 		if (pos != string::npos)
-			msg = msg.substr(0, pos);
-
-		myTask *ptask = new myTask(pConn);
+		{
+			strQuery.erase(pos, strQuery.size());
+		}
+		cout << "recv msg: " << strQuery << endl;
+		QueryTask *ptask = new QueryTask(strQuery, pConn);
 		_threadPool.setTask(ptask);
 	}
 

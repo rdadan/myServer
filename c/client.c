@@ -43,7 +43,7 @@ void do_service(int sockfd)
     char recvbuf[1024] = {0};
     char sendbuf[1024] = {0};
     read(sockfd, recvbuf, sizeof recvbuf);
-    printf("receive msg : %s\n", recvbuf);
+    printf("server: %s\n", recvbuf);
     while (1)
     {
         memset(recvbuf, 0, sizeof recvbuf);
@@ -66,6 +66,6 @@ void do_service(int sockfd)
             exit(EXIT_SUCCESS);
         }
 
-        printf("receive msg : %s", recvbuf);
+        printf("query result : %s\n", recvbuf);
     }
 }
