@@ -40,4 +40,5 @@ std::size_t length(const std::string &str);
 int triple_min(const int &a, const int &b, const int &c);
 
 int getMinEditDistance(const std::string &lhs, const std::string &rhs);
+
 #endif

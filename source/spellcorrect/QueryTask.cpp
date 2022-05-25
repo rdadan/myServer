@@ -11,12 +11,23 @@ namespace SPELLCORRECT
     void QueryTask::process()
     {
         // 计算线程，对查询词进行匹配
-        // 执行查询，查询索引表
-        getRuesltFromIndexTable();
-        sendRueslt(); // 3. 给客户端返回结果
+        // 1. 先在cache中查询
+        cout << "Process Thread: " << pthread_self() << endl;
+        _strResult = "";
+        _strResult = SPELLCORRECT::_sCache.getCacheResult(_strQuery);
+        if (_strResult != "")
+        {
+            cout << " get result from cache " << endl;
+        }
+        else
+        { // 2. cache中找不到，再查询询索引表
+            cout << " get result from indexTable " << endl;
+            getRuesltFromIndexTable();
+        }
+        sendRueslt();
     }
 
-    void QueryTask::getRuesltFromIndexTable()
+    string QueryTask::getRuesltFromIndexTable()
     {
         auto indexTable = Dict::getInstance()->getIndexTable();
         string ch;
@@ -33,6 +44,22 @@ namespace SPELLCORRECT
                 getQueRueslt(indexTable[ch]);
             }
         }
+        _strResult = "";
+        if (_queResult.empty())
+        {
+            _strResult = "no answer!";
+        }
+        else
+        {
+            _strResult = "\n";
+            while (!_queResult.empty()) // 返回全部候选词
+            {
+                _strResult += _queResult.top()._word + " ";
+                _queResult.pop();
+            }
+            SPELLCORRECT::_sCache.setCacheResult(_strQuery, _strResult);
+        }
+        return _strResult;
     }
 
     size_t QueryTask::getQueRueslt(set<int> &iset)
@@ -57,21 +84,8 @@ namespace SPELLCORRECT
 
     void QueryTask::sendRueslt()
     {
-        if (_queResult.empty())
-        {
-            string result = "no answer!";
-            _connPtr->sendMsgToLoop(result);
-        }
-        else
-        {
-            MyResult result = _queResult.top();
-            _connPtr->sendMsgToLoop(result._word); //这里只返回了一个候选词
-
-            // Cache &cache = CacheManager::getCache(wd::str2int(wd::current_thread::threadName));
-            // cache.addElement(_queryWord, result._word); //在缓存中添加新的查询结果
-            // cout << "> respone(): add Cache" << endl;
-        }
         cout << "> reponse client" << endl;
+        _connPtr->sendMsgToLoop(_strResult);
     }
 
 } // SPELLCORRECT

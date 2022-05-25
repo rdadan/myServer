@@ -10,21 +10,6 @@ using std::cout;
 using std::endl;
 namespace SPELLCORRECT
 {
-	// class myTask : public THREADPOOL::Task
-	// {
-	// public:
-	// 	myTask(reactor::spTcpConnPtr pConn) : _pConn(pConn) {}
-	// 	void process() override
-	// 	{
-	// 		int i = 99999999999999999999999;
-	// 		while (i--)
-	// 		{
-	// 		}
-	// 		cout << "process thread: " << pthread_self() << endl;
-	// 		_pConn->sendMsgToLoop("do process done\n");
-	// 	}
-	// 	reactor::spTcpConnPtr _pConn;
-	// };
 
 	SpellCorrectServer::SpellCorrectServer()
 		: _threadPool(2, 2),

@@ -1,13 +1,14 @@
 INC_DIR:= ./include/socket ./include/epoll ./include/tcp \
-		  ./include/threadpoll ./include/spellcorrect \
+		  ./include/threadpoll ./include/spellcorrect ./include/cache \
 SRC_DIR:= ./ ./source/socket ./include/epoll ./include/tcp \
-		  ./include/threadpoll ./include/spellcorrect
+		  ./include/threadpoll ./include/spellcorrect ./include/cache
 SRCS:=$(wildcard ./*.cpp) \
 		$(wildcard ./source/socket/*.cpp) \
 		$(wildcard ./source/epoll/*.cpp) \
 		$(wildcard ./source/tcp/*.cpp) \
 		$(wildcard ./source/threadpoll/*.cpp) \
-		$(wildcard ./source/spellcorrect/*.cpp) 
+		$(wildcard ./source/spellcorrect/*.cpp) \
+		$(wildcard ./source/cache/*.cpp)
 
 OBJS:= $(patsubst %.cpp, %.o, $(SRCS))
 LIBS:= -lpthread

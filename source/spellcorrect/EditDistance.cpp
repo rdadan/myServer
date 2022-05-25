@@ -1,9 +1,11 @@
 #include "../../include/spellcorrect/EditDistance.h"
-
+#include <iostream>
 #include <string>
 using std::string;
 
-/// 获取一个字节高位开头为1的个数
+// UTF-8编码  一个字符可能占一个字节也可能占6个字节
+// 获取一个字符高位开头为1的个数。1的个数就代表了这个字符占了多少字节
+// 一个中午字符占三个字节
 size_t getBytes(const char ch)
 {
     if (ch & (1 << 7))
@@ -22,13 +24,14 @@ size_t getBytes(const char ch)
     }
     return 1;
 }
+// 获取字符串长度
 std::size_t length(const std::string &str)
 {
     std::size_t ilen = 0;
-    for (std::size_t idx = 0; idx != str.size(); ++idx)
+    for (std::size_t idx = 0; idx != str.size();)
     {
         int nBytes = getBytes(str[idx]);
-        idx += (nBytes - 1);
+        idx += nBytes;
         ++ilen;
     }
     return ilen;
@@ -40,7 +43,8 @@ int triple_min(const int &a, const int &b, const int &c)
 }
 
 int getMinEditDistance(const std::string &lhs, const std::string &rhs)
-{ //计算最小编辑距离-包括处理中英文
+{
+    //计算最小编辑距离-包括处理中英文，都按照字符的方式处理
     size_t lhs_len = length(lhs);
     size_t rhs_len = length(rhs);
     int editDist[lhs_len + 1][rhs_len + 1];
@@ -81,3 +85,15 @@ int getMinEditDistance(const std::string &lhs, const std::string &rhs)
     }
     return editDist[lhs_len][rhs_len];
 }
+
+// void test()
+// {
+//     std::string s1 = "中国人";
+//     std::string s2 = "abc中国";
+//     std::cout << "s1 size: " << s1.size() << std::endl; // 9 都是9个字节
+//     std::cout << "s2 size: " << s2.size() << std::endl; // 9
+
+//     std::cout << "s1 length: " << length(s1) << std::endl; // 长度为3
+//     std::cout << "s2 size: " << length(s2) << std::endl;   // 长度为5
+//     std::cout << "s1 to s2 edit distance: " << getMinEditDistance(s1, s2) << std::endl;   // s1变为s2, 经过4步
+// }

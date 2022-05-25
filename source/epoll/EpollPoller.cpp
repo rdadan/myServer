@@ -180,8 +180,7 @@ namespace reactor
         // 执行IO发送
         for (auto func : _vecTmp)
         {
-            cout << "IO线程 sendMsg: 进程ID: " << getpid() << " 线程ID: " << pthread_self() << endl;
-
+            cout << "IO Thread: " << pthread_self() << endl;
             func();
         }
     }
