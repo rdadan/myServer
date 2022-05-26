@@ -15,7 +15,7 @@ namespace SPELLCORRECT
 	class SpellCorrectServer
 	{
 	public:
-		SpellCorrectServer();
+		SpellCorrectServer(const int &threadNum, const int &queSize, const string &cnpath, const string &enpath);
 		void start();
 		void onConnection(spTcpConnPtr pConn);
 		void onMessage(spTcpConnPtr pConn);

@@ -29,26 +29,19 @@ ThreadPool::~ThreadPool()
 // 就是启动工作线程
 void ThreadPool::start()
 {
-    // cout << "threadpool create WorkThread" << endl;
-
-    while (_threadNum--)
+    for (int idx = 0; idx < _threadNum; idx++)
     {
-        // shared_ptr<Thread> sp(new WorkThread(*this));
-        _vecShareThreadPtr.push_back(shared_ptr<Thread>(new ThreadWorker(*this)));
-        // ::sleep(1);
+        //  shared_ptr<Thread> sp(new WorkThread(*this));
+        _vecShareThreadPtr.push_back(shared_ptr<Thread>(new ThreadWorker(*this, idx)));
     }
-    // cout << "WorkThread start... " << endl;
     for (auto &shPthread : _vecShareThreadPtr)
     {
         shPthread->startThread();
-        // ::sleep(1);
     }
 }
 // 线程池终止
 void ThreadPool::stop()
 {
-    // cout << "threadpool stop..." << endl;
-
     if (!_isExit)
     {
         // 确认所有的任务全部执行完毕
@@ -59,7 +52,6 @@ void ThreadPool::stop()
         _isExit = true;
         // 唤醒所有子线程
         _taskQue.notifyALL();
-
         for (auto &shPthread : _vecShareThreadPtr)
         {
             shPthread->joinThread();

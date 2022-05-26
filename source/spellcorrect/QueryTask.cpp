@@ -1,5 +1,6 @@
 #include "../../include/spellcorrect/QueryTask.h"
 #include "../../include/spellcorrect/Dict.h"
+#include "../../include/threadpool/ThreadWorker.h"
 
 namespace SPELLCORRECT
 {
@@ -12,17 +13,21 @@ namespace SPELLCORRECT
     {
         // 计算线程，对查询词进行匹配
         // 1. 先在cache中查询
-        cout << "Process Thread: " << pthread_self() << endl;
         _strResult = "";
-        _strResult = SPELLCORRECT::_sCache.getCacheResult(_strQuery);
+        // 根据threadIdx获取thread所拥有的cache
+        _strResult = CACHE::Cache::getCacheResult(_strQuery, CurrentThread::threadName);
         if (_strResult != "")
         {
-            cout << " get result from cache " << endl;
+            cout << ">> get result from cache thread: " << pthread_self() << " ->" << CurrentThread::threadName << endl;
         }
         else
         { // 2. cache中找不到，再查询询索引表
             cout << " get result from indexTable " << endl;
             getRuesltFromIndexTable();
+            if (_strResult == "")
+                _strResult = "no answer\n";
+            else
+                CACHE::Cache::setCacheResult(_strQuery, _strResult, CurrentThread::threadName);
         }
         sendRueslt();
     }
@@ -45,11 +50,7 @@ namespace SPELLCORRECT
             }
         }
         _strResult = "";
-        if (_queResult.empty())
-        {
-            _strResult = "no answer!";
-        }
-        else
+        if (!_queResult.empty())
         {
             _strResult = "\n";
             while (!_queResult.empty()) // 返回全部候选词
@@ -57,7 +58,6 @@ namespace SPELLCORRECT
                 _strResult += _queResult.top()._word + " ";
                 _queResult.pop();
             }
-            SPELLCORRECT::_sCache.setCacheResult(_strQuery, _strResult);
         }
         return _strResult;
     }
@@ -84,7 +84,6 @@ namespace SPELLCORRECT
 
     void QueryTask::sendRueslt()
     {
-        cout << "> reponse client" << endl;
         _connPtr->sendMsgToLoop(_strResult);
     }
 

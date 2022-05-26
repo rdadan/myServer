@@ -5,6 +5,7 @@
 #include <iostream>
 using std::cout;
 using std::endl;
+
 // 面向对象方式封装：使用继续和多态
 namespace THREADPOOL
 {

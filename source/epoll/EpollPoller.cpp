@@ -43,21 +43,6 @@ namespace reactor
             _islopping = false;
     }
 
-    // void EpollPoller::setConnectionCallback(EpollConnCallBack cbFunc)
-    // {
-    //     _connFunc = cbFunc;
-    // }
-
-    // void EpollPoller::setMessageCallback(EpollConnCallBack cbFunc)
-    // {
-    //     _msgFunc = cbFunc;
-    // }
-
-    // void EpollPoller::setCloseCallback(EpollConnCallBack cbFunc)
-    // {
-    //     _closeFunc = cbFunc;
-    // }
-
     void EpollPoller::waitEpollfd()
     {
         int nready;
@@ -66,7 +51,7 @@ namespace reactor
             nready = ::epoll_wait(_epfd,
                                   &(*_vecEvent.begin()),
                                   _vecEvent.size(),
-                                  3000);          //等待3s返回
+                                  5000);          //等待3s返回
         } while (nready == -1 && errno == EINTR); // 循环等待事件触发
 
         if (nready == -1)

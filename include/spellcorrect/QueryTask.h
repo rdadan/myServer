@@ -34,8 +34,8 @@ namespace SPELLCORRECT
         using QueResult = priority_queue<MyResult, vector<MyResult>, MyCompare>;
         QueResult _queResult; // 排序的优先队列
 
-        static CACHE::Cache _sCache;
+        // static CACHE::Cache _sCache; // 所有线程共享一个cache
     };
-    CACHE::Cache _sCache;
+    // CACHE::Cache _sCache;
 } // space spellcorrct
 #endif

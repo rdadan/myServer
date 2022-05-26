@@ -11,13 +11,11 @@ using std::endl;
 namespace SPELLCORRECT
 {
 
-	SpellCorrectServer::SpellCorrectServer()
-		: _threadPool(2, 2),
+	SpellCorrectServer::SpellCorrectServer(const int &threadNum, const int &queSize, const string &cnpath, const string &enpath)
+		: _threadPool(threadNum, queSize),
 		  _tcpServer()
 	{
 		// 初始化字典
-		string cnpath = "/mnt/d/MyProjects/linuxOS/myspellcorrection/file/dict_cn_test.dat";
-		string enpath = "/mnt/d/MyProjects/linuxOS/myspellcorrection/file/dict_en_test.dat";
 		Dict *pMyDict = Dict::getInstance();
 		pMyDict->initDict(cnpath.c_str(), enpath.c_str());
 	}
