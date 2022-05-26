@@ -5,7 +5,7 @@
 namespace reactor
 {
 
-    // 完成三次握手
+    // * 完成三次握手
     class SockAcceptor
     {
     public:

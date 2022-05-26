@@ -10,10 +10,11 @@ using std::cout;
 using std::endl;
 namespace SPELLCORRECT
 {
-
 	SpellCorrectServer::SpellCorrectServer(const int &threadNum, const int &queSize, const string &cnpath, const string &enpath)
 		: _threadPool(threadNum, queSize),
-		  _tcpServer()
+		  _tcpServer(),
+		  _timerThread(std::bind(&CACHE::Cache::updataCacheFile), 10, 5)
+
 	{
 		// 初始化字典
 		Dict *pMyDict = Dict::getInstance();
@@ -42,6 +43,7 @@ namespace SPELLCORRECT
 	{
 		cout << "\n> " << pConn->toString() << "has closs!" << endl;
 	}
+	//
 	void SpellCorrectServer::start()
 	{
 

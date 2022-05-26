@@ -9,6 +9,7 @@
 #define __SPELLCORRECTSERVER_H__
 #include "../tcp/TcpServer.h"
 #include "../threadpool/ThreadPool.h"
+#include "../time/TimerThread.h"
 namespace SPELLCORRECT
 {
 	using reactor::spTcpConnPtr;
@@ -24,6 +25,7 @@ namespace SPELLCORRECT
 	private:
 		THREADPOOL::ThreadPool _threadPool;
 		reactor::TcpServer _tcpServer;
+		TIMER::TimerThread _timerThread; //时间线程
 	};
 
 } // space spellcorrct

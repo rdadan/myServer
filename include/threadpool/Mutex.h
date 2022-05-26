@@ -2,9 +2,7 @@
 #define __MUTEX_H__
 
 #include "../util/NonCopy.h"
-
 #include <pthread.h>
-
 namespace THREADPOOL
 {
     class Mutex : public NonCopy
@@ -38,7 +36,6 @@ namespace THREADPOOL
     private:
         Mutex &_autoMutex;
     };
-
 } // end space
 
 #endif

@@ -9,6 +9,8 @@ int main(void)
     string cnPath = "/mnt/d/MyProjects/linuxOS/myspellcorrection/file/dict_cn_test.dat";
     string enPath = "/mnt/d/MyProjects/linuxOS/myspellcorrection/file/dict_en_test.dat";
     string cachePath = "/mnt/d/MyProjects/linuxOS/myspellcorrection/file/cache.dat";
+    // CACHE::Cache::_filename = cachePath;
+
     CACHE::Cache cache(threadNum, cachePath);
 
     SPELLCORRECT::SpellCorrectServer server(threadNum, queSize, cnPath, enPath);

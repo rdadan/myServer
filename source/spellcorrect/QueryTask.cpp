@@ -52,7 +52,7 @@ namespace SPELLCORRECT
         _strResult = "";
         if (!_queResult.empty())
         {
-            _strResult = "\n";
+            // _strResult = "\n";
             while (!_queResult.empty()) // 返回全部候选词
             {
                 _strResult += _queResult.top()._word + " ";
@@ -70,7 +70,7 @@ namespace SPELLCORRECT
         {
             string rhsWord = dict[*iter].first;
             int idist = ::getMinEditDistance(_strQuery, rhsWord);
-            //进行最小编辑距离的计算
+            // 进行最小编辑距离的计算
             if (idist < 3)
             {
                 MyResult res;

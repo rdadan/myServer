@@ -18,7 +18,7 @@ namespace THREADPOOL
         void joinThread();
 
     private:
-        //线程执行体，作为借口提供给子线程
+        //线程执行体，作为接口提供给子线程
         virtual void run() = 0;
         // 线程需要具体功能, 函数指针作为 pthread_create()系统接口的参数
         static void *threadFunc(void *);
