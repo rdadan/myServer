@@ -12,30 +12,28 @@ using reactor::spTcpConnPtr;
 // using namespace reactor;
 using std::set;
 using std::string;
-namespace SPELLCORRECT
-{
+namespace SPELLCORRECT {
 
-    class QueryTask : public THREADPOOL::Task
-    {
-    public:
-        QueryTask(string strQuery, spTcpConnPtr connPtr);
-        void process() override;
+class QueryTask : public THREADPOOL::Task {
+public:
+    QueryTask(string strQuery, spTcpConnPtr connPtr);
+    void process() override;
 
-    private:
-        string getRuesltFromIndexTable();
-        void sendRueslt();
-        size_t getQueRueslt(set<int> &iset);
+private:
+    string getRuesltFromIndexTable();
+    void sendRueslt();
+    size_t getQueRueslt(set<int> &iset);
 
-    private:
-        string _strQuery;  // 要查询的字符
-        string _strResult; // 排序且拼接好的
+private:
+    string _strQuery;  // 要查询的字符
+    string _strResult; // 排序且拼接好的
 
-        spTcpConnPtr _connPtr;
-        using QueResult = priority_queue<MyResult, vector<MyResult>, MyCompare>;
-        QueResult _queResult; // 排序的优先队列
+    spTcpConnPtr _connPtr;
+    using QueResult = priority_queue<MyResult, vector<MyResult>, MyCompare>;
+    QueResult _queResult; // 排序的优先队列
 
-        // static CACHE::Cache _sCache; // 所有线程共享一个cache
-    };
-    // CACHE::Cache _sCache;
-} // space spellcorrct
+    // static CACHE::Cache _sCache; // 所有线程共享一个cache
+};
+// CACHE::Cache _sCache;
+} // namespace SPELLCORRECT
 #endif

@@ -2,32 +2,21 @@
 #define __EDITDISTANCE_H__
 #include <string>
 using std::string;
-struct MyResult
-{
+struct MyResult {
     string _word;
     int _iFreq;
     int _iDist;
 };
-struct MyCompare
-{
-    bool operator()(const MyResult &lhs, const MyResult &rhs)
-    {
-        if (lhs._iDist > rhs._iDist)
-        {
+struct MyCompare {
+    bool operator()(const MyResult &lhs, const MyResult &rhs) {
+        if (lhs._iDist > rhs._iDist) {
             return true;
-        }
-        else if (lhs._iDist == rhs._iDist &&
-                 lhs._iFreq < rhs._iFreq)
-        {
+        } else if (lhs._iDist == rhs._iDist && lhs._iFreq < rhs._iFreq) {
             return true;
-        }
-        else if (lhs._iDist == rhs._iDist &&
-                 lhs._iFreq == rhs._iFreq &&
-                 lhs._word > rhs._word)
-        {
+        } else if (lhs._iDist == rhs._iDist && lhs._iFreq == rhs._iFreq
+                   && lhs._word > rhs._word) {
             return true;
-        }
-        else
+        } else
             return false;
     }
 };

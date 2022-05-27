@@ -10,23 +10,22 @@
 #include "../tcp/TcpServer.h"
 #include "../threadpool/ThreadPool.h"
 #include "../time/TimerThread.h"
-namespace SPELLCORRECT
-{
-	using reactor::spTcpConnPtr;
-	class SpellCorrectServer
-	{
-	public:
-		SpellCorrectServer(const int &threadNum, const int &queSize, const string &cnpath, const string &enpath);
-		void start();
-		void onConnection(spTcpConnPtr pConn);
-		void onMessage(spTcpConnPtr pConn);
-		void onClose(spTcpConnPtr pConn);
+namespace SPELLCORRECT {
+using reactor::spTcpConnPtr;
+class SpellCorrectServer {
+public:
+    SpellCorrectServer(const int &threadNum, const int &queSize,
+                       const string &cnpath, const string &enpath);
+    void start();
+    void onConnection(spTcpConnPtr pConn);
+    void onMessage(spTcpConnPtr pConn);
+    void onClose(spTcpConnPtr pConn);
 
-	private:
-		THREADPOOL::ThreadPool _threadPool;
-		reactor::TcpServer _tcpServer;
-		TIMER::TimerThread _timerThread; //时间线程
-	};
+private:
+    THREADPOOL::ThreadPool _threadPool;
+    reactor::TcpServer _tcpServer;
+    TIMER::TimerThread _timerThread; //时间线程
+};
 
-} // space spellcorrct
+} // namespace SPELLCORRECT
 #endif

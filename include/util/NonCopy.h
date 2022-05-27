@@ -1,11 +1,12 @@
 #ifndef __NONCOPY_H__
 #define __NONCOPY_H__
 
-class NonCopy
-{
+class NonCopy {
 protected:
-    NonCopy() {}
-    ~NonCopy() {}
+    NonCopy() {
+    }
+    ~NonCopy() {
+    }
 
 private:
     NonCopy(const NonCopy &);
